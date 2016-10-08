@@ -1,4 +1,4 @@
-var controller = require('./controllers');
+var controller = require('./controllers/index');
 var router = require('express').Router();
 
 //Connect controller methods to their corresponding routes

@@ -17,6 +17,15 @@ app.set('port', 3000);
 // Logging and parsing
 app.use(morgan('dev'));
 app.use(parser.json());
+app.use(parser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+// Allow cross-origin requests
+app.use(function(req, res, next) { // passes to all request methods
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 // Set up our routes
 app.use('/classes', router);

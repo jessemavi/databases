@@ -1,0 +1,9 @@
+USE TEMP;
+
+create table phone(
+  id int,
+  brand varchar(30),
+  color varchar(30),
+  owner varchar(30),
+  primary key (id)
+);

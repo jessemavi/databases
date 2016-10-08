@@ -1,0 +1,8 @@
+MYSQL_commands
+
+To start your MySQL server:
+  mysql -u root -p
+
+To run the batch file (while NOT in the MySQL prompt, while in the directory of the batch file)
+  mysql -u root -p < batch 
+
