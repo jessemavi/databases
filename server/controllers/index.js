@@ -16,7 +16,7 @@ module.exports = {
         database: 'chat'
       });
       dbConnection.connect();
-      var getMessages = 'SELECT users.username, messages.text FROM users INNER JOIN messages ON messages.user_id = users.id INNER JOIN rooms ON messages.room_id = rooms.id ORDER BY messages.createdAt DESC;';
+      var getMessages = 'SELECT users.username, messages.text, rooms.roomname FROM users INNER JOIN messages ON messages.user_id = users.id INNER JOIN rooms ON messages.room_id = rooms.id ORDER BY messages.createdAt DESC;';
       dbConnection.query(getMessages, [], function(err, results) {
         dbConnection.end();
 
