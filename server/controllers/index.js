@@ -8,17 +8,22 @@ module.exports = {
       var response = {};
       response.results = [];
 
-      var tempMessage = {
-        text: 'Random message',
-        username: 'Jesse', 
-        roomname: 'lobby'
-      };
-      response.results.push(tempMessage);
+      // DB setup
+      var dbConnection;
+      dbConnection = mysql.createConnection({
+        user: 'root',
+        password: '1234',
+        database: 'chat'
+      });
+      dbConnection.connect();
+      var getMessages = 'SELECT users.username, messages.text FROM users INNER JOIN messages ON messages.user_id = users.id INNER JOIN rooms ON messages.room_id = rooms.id ORDER BY messages.createdAt DESC;';
+      dbConnection.query(getMessages, [], function(err, results) {
+        dbConnection.end();
 
-      // Respond with a placeholder message
-
-      res.setHeader('Last-Modified', (new Date()).toUTCString()); // get 304 without this line
-      res.status(status).send(response); // don't have to stringify?
+        response.results = results;
+        res.setHeader('Last-Modified', (new Date()).toUTCString()); // get 304 without this line
+        res.status(status).send(response); // don't have to stringify?
+      });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       var status = 201;
@@ -103,22 +108,6 @@ module.exports = {
           });
         }
       });   
-
-      // dbConnection.query(insertUsers, queryArgs, function(err, results) {
-      //   var userId = results.insertId;
-      //   dbConnection.query(insertRoom, queryArgs, function(err, results) {
-      //     console.log(JSON.stringify(err));
-      //     console.log(JSON.stringify(results));
-      //     var roomId = results.insertId;
-      //     var insertMessage = 'INSERT INTO messages (text, user_id, room_id) VALUES ("' + text + '", ' + userId + ', ' + roomId + ')';
-      //     console.log('insertMesssage is ' + insertMessage);
-      //     dbConnection.query(insertMessage, queryArgs, function(err, results) {
-      //       console.log('inserted message');
-      //       dbConnection.end();
-      //     });   
-      //   });
-      // });
-
 
       res.setHeader('Last-Modified', (new Date()).toUTCString()); // get 304 without this line
       var postReq = req.body;
